@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PixelPull Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --accent: #e8ff47;
+    --accent2: #ff4747;
+    --text: #f0f0f0;
+    --muted: #555;
+    --border: #1e1e1e;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    cursor: none;
+    overflow-x: hidden;
+  }
+
+  /* ── CUSTOM CURSOR ── */
+  #cursor {
+    position: fixed;
+    width: 12px; height: 12px;
+    background: var(--accent);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width .2s, height .2s, background .2s;
+    mix-blend-mode: exclusion;
+  }
+  #cursor-ring {
+    position: fixed;
+    width: 36px; height: 36px;
+    border: 1.5px solid var(--accent);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: width .35s cubic-bezier(.25,.46,.45,.94),
+                height .35s cubic-bezier(.25,.46,.45,.94),
+                border-color .2s;
+    opacity: .6;
+  }
+  body:has(a:hover) #cursor,
+  body:has(button:hover) #cursor { width: 6px; height: 6px; background: var(--accent2); }
+  body:has(a:hover) #cursor-ring,
+  body:has(button:hover) #cursor-ring { width: 56px; height: 56px; border-color: var(--accent2); }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.4rem 3rem;
+    border-bottom: 1px solid var(--border);
+    background: rgba(10,10,10,.85);
+    backdrop-filter: blur(12px);
+  }
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    letter-spacing: -.02em;
+    color: var(--text);
+    text-decoration: none;
+    display: flex; align-items: center; gap: .5rem;
+  }
+  .logo span { color: var(--accent); }
+  nav ul { list-style: none; display: flex; gap: 2.5rem; }
+  nav ul a {
+    text-decoration: none;
+    color: var(--muted);
+    font-size: .75rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    transition: color .2s;
+  }
+  nav ul a:hover { color: var(--accent); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 0 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    opacity: .4;
+  }
+  .hero-content { position: relative; z-index: 2; max-width: 900px; }
+  .hero-tag {
+    font-size: .7rem;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: .75rem;
+  }
+  .hero-tag::before {
+    content: '';
+    display: block; width: 2rem; height: 1px;
+    background: var(--accent);
+  }
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(3.5rem, 9vw, 8rem);
+    font-weight: 800;
+    line-height: .95;
+    letter-spacing: -.04em;
+    margin-bottom: 2rem;
+  }
+  h1 em { font-style: normal; color: var(--accent); }
+  .hero-sub {
+    max-width: 460px;
+    color: var(--muted);
+    font-size: .85rem;
+    line-height: 1.8;
+    margin-bottom: 3rem;
+  }
+  .btn {
+    display: inline-flex; align-items: center; gap: .6rem;
+    background: var(--accent);
+    color: #000;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: .8rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: 1rem 2rem;
+    border: none; border-radius: 0;
+    text-decoration: none;
+    cursor: none;
+    transition: background .2s, transform .15s;
+  }
+  .btn:hover { background: var(--accent2); color: #fff; transform: translateY(-2px); }
+  .btn-outline {
+    background: transparent;
+    border: 1px solid var(--muted);
+    color: var(--text);
+  }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); background: transparent; }
+
+  .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  .hero-badge {
+    position: absolute;
+    right: 6vw; bottom: 8vh;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    animation: spin 12s linear infinite;
+  }
+  .hero-badge svg { position: absolute; }
+  .hero-badge-inner {
+    width: 10px; height: 10px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── TICKER ── */
+  .ticker {
+    overflow: hidden;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    padding: .85rem 0;
+    white-space: nowrap;
+  }
+  .ticker-inner {
+    display: inline-flex; gap: 4rem;
+    animation: ticker 18s linear infinite;
+  }
+  .ticker-item {
+    font-size: .7rem;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .ticker-item span { color: var(--accent); margin-right: 1rem; }
+  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* ── SECTION COMMONS ── */
+  section { padding: 7rem 3rem; }
+  .section-label {
+    font-size: .65rem;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    display: flex; align-items: center; gap: .75rem;
+  }
+  .section-label::before {
+    content: '';
+    display: block; width: 1.5rem; height: 1px; background: var(--accent);
+  }
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    letter-spacing: -.03em;
+    line-height: 1.05;
+    margin-bottom: 1.5rem;
+  }
+
+  /* ── ABOUT ── */
+  #about { border-top: 1px solid var(--border); }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+    margin-top: 4rem;
+  }
+  .about-text p {
+    color: var(--muted);
+    font-size: .85rem;
+    line-height: 2;
+    margin-bottom: 1.5rem;
+  }
+  .about-text p strong { color: var(--text); font-weight: 400; }
+  .stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+  .stat-box {
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    position: relative;
+  }
+  .stat-box::before {
+    content: '';
+    position: absolute; top: -1px; left: 0;
+    width: 2rem; height: 2px;
+    background: var(--accent);
+  }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .stat-label { font-size: .7rem; color: var(--muted); margin-top: .4rem; letter-spacing: .1em; text-transform: uppercase; }
+  .about-visual {
+    position: relative;
+    height: 400px;
+  }
+  .about-card {
+    position: absolute;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+  }
+  .about-card:nth-child(1) { top: 0; left: 0; right: 3rem; }
+  .about-card:nth-child(2) { bottom: 0; left: 3rem; right: 0; border-top-color: var(--accent); }
+  .about-card h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: .9rem;
+    font-weight: 700;
+    margin-bottom: .75rem;
+  }
+  .about-card p { font-size: .75rem; color: var(--muted); line-height: 1.8; }
+  .tag-row { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1rem; }
+  .tag {
+    font-size: .65rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    border: 1px solid var(--border);
+    padding: .3rem .7rem;
+    color: var(--muted);
+  }
+
+  /* ── THUMBNAILS ── */
+  #work { border-top: 1px solid var(--border); overflow: hidden; }
+  .work-header { margin-bottom: 3rem; }
+  .scroll-track {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    width: max-content;
+  }
+  .row1 { animation: scrollRight 30s linear infinite; }
+  .row2 { animation: scrollLeft 35s linear infinite; }
+  .row3 { animation: scrollRight 28s linear infinite; }
+  @keyframes scrollRight {
+    from { transform: translateX(-30%); }
+    to   { transform: translateX(0%); }
+  }
+  @keyframes scrollLeft {
+    from { transform: translateX(0%); }
+    to   { transform: translateX(-30%); }
+  }
+  .thumb {
+    flex-shrink: 0;
+    width: 320px; height: 180px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+    cursor: none;
+  }
+  .thumb:hover .thumb-overlay { opacity: 1; }
+  .thumb-overlay {
+    position: absolute; inset: 0;
+    background: rgba(232,255,71,.08);
+    border: 2px solid var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0;
+    transition: opacity .25s;
+  }
+  .thumb-overlay span {
+    font-size: .65rem;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+  }
+
+  /* Placeholder thumbs with visual variety */
+  .thumb-inner {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.6rem;
+    letter-spacing: -.04em;
+    position: relative;
+    overflow: hidden;
+  }
+  .thumb-inner::before {
+    content: '';
+    position: absolute; inset: 0;
+    opacity: .12;
+  }
+  .t1 .thumb-inner { background: #1a1a2e; color: #e94560; }
+  .t1 .thumb-inner::before { background: radial-gradient(circle at 70% 30%, #e94560, transparent 60%); }
+  .t2 .thumb-inner { background: #0f2027; color: #00b4d8; }
+  .t2 .thumb-inner::before { background: radial-gradient(circle at 30% 70%, #00b4d8, transparent 60%); }
+  .t3 .thumb-inner { background: #1b1b1b; color: #e8ff47; }
+  .t3 .thumb-inner::before { background: radial-gradient(circle at 50% 50%, #e8ff47, transparent 50%); }
+  .t4 .thumb-inner { background: #200122; color: #cc5500; }
+  .t4 .thumb-inner::before { background: radial-gradient(circle at 20% 80%, #cc5500, transparent 60%); }
+  .t5 .thumb-inner { background: #0d0d0d; color: #39ff14; }
+  .t5 .thumb-inner::before { background: radial-gradient(circle at 80% 20%, #39ff14, transparent 60%); }
+  .t6 .thumb-inner { background: #16213e; color: #f5a623; }
+  .t6 .thumb-inner::before { background: radial-gradient(circle at 40% 60%, #f5a623, transparent 60%); }
+  .t7 .thumb-inner { background: #1c1c1c; color: #ff6b6b; }
+  .t7 .thumb-inner::before { background: radial-gradient(circle at 60% 40%, #ff6b6b, transparent 60%); }
+  .t8 .thumb-inner { background: #0a1628; color: #a78bfa; }
+  .t8 .thumb-inner::before { background: radial-gradient(circle at 50% 30%, #a78bfa, transparent 60%); }
+
+  /* ── ONBOARDING FORM ── */
+  #onboard { border-top: 1px solid var(--border); background: var(--surface); }
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    margin-top: 4rem;
+  }
+  .form-info h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+  .form-info p { font-size: .8rem; color: var(--muted); line-height: 2; margin-bottom: 2rem; }
+  .process-steps { display: flex; flex-direction: column; gap: 1.5rem; }
+  .step {
+    display: flex; gap: 1.2rem; align-items: flex-start;
+  }
+  .step-num {
+    font-family: 'Syne', sans-serif;
+    font-size: .7rem;
+    font-weight: 800;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    width: 2rem; height: 2rem;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .step-text h5 {
+    font-family: 'Syne', sans-serif;
+    font-size: .85rem;
+    font-weight: 700;
+    margin-bottom: .25rem;
+  }
+  .step-text p { font-size: .75rem; color: var(--muted); line-height: 1.7; }
+
+  form { display: flex; flex-direction: column; gap: 1.25rem; }
+  .field { display: flex; flex-direction: column; gap: .4rem; }
+  label {
+    font-size: .65rem;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  input, select, textarea {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: .8rem;
+    padding: .85rem 1rem;
+    outline: none;
+    transition: border-color .2s;
+    cursor: none;
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: 0;
+  }
+  input:focus, select:focus, textarea:focus { border-color: var(--accent); }
+  select option { background: #111; }
+  textarea { resize: vertical; min-height: 110px; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: .5rem;
+    flex-wrap: wrap; gap: 1rem;
+  }
+  .form-note { font-size: .65rem; color: var(--muted); }
+  #form-success {
+    display: none;
+    padding: 1.5rem;
+    border: 1px solid var(--accent);
+    text-align: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+  }
+  #form-success span { color: var(--accent); }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .foot-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+  }
+  .foot-logo span { color: var(--accent); }
+  footer p { font-size: .7rem; color: var(--muted); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 1.2rem 1.5rem; }
+    nav ul { display: none; }
+    section { padding: 5rem 1.5rem; }
+    .hero { padding: 0 1.5rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .about-visual { display: none; }
+    .form-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .field-row { grid-template-columns: 1fr; }
+    footer { padding: 2rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">Pixel<span>Pull</span> Studio</a>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#onboard">Get Started</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-tag">YouTube Thumbnail Agency</div>
+    <h1>Thumbnails<br>that <em>pull.</em></h1>
+    <p class="hero-sub">
+      We craft high-converting thumbnails that stop the scroll,
+      command attention, and turn impressions into clicks.
+      One studio. Obsessive craft.
+    </p>
+    <div class="hero-ctas">
+      <a href="#onboard" class="btn">Start a Project →</a>
+      <a href="#work" class="btn btn-outline">View Work</a>
+    </div>
+  </div>
+  <div class="hero-badge">
+    <svg width="120" height="120" viewBox="0 0 120 120">
+      <path id="circle-text" fill="none" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0"/>
+      <text fill="#555" font-size="10.5" font-family="DM Mono,monospace" letter-spacing="2.8">
+        <textPath href="#circle-text">THUMBNAIL STUDIO · DESIGN · CTR · CRAFT ·</textPath>
+      </text>
+    </svg>
+    <div class="hero-badge-inner"></div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span class="ticker-item"><span>✦</span> HIGH CTR THUMBNAILS</span>
+    <span class="ticker-item"><span>✦</span> YOUTUBE OPTIMIZATION</span>
+    <span class="ticker-item"><span>✦</span> BRAND IDENTITY</span>
+    <span class="ticker-item"><span>✦</span> SCROLL-STOPPING DESIGN</span>
+    <span class="ticker-item"><span>✦</span> RETAINER PACKAGES</span>
+    <span class="ticker-item"><span>✦</span> HIGH CTR THUMBNAILS</span>
+    <span class="ticker-item"><span>✦</span> YOUTUBE OPTIMIZATION</span>
+    <span class="ticker-item"><span>✦</span> BRAND IDENTITY</span>
+    <span class="ticker-item"><span>✦</span> SCROLL-STOPPING DESIGN</span>
+    <span class="ticker-item"><span>✦</span> RETAINER PACKAGES</span>
+    <span class="ticker-item"><span>✦</span> HIGH CTR THUMBNAILS</span>
+    <span class="ticker-item"><span>✦</span> YOUTUBE OPTIMIZATION</span>
+    <span class="ticker-item"><span>✦</span> BRAND IDENTITY</span>
+    <span class="ticker-item"><span>✦</span> SCROLL-STOPPING DESIGN</span>
+    <span class="ticker-item"><span>✦</span> RETAINER PACKAGES</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">About the Studio</div>
+  <h2>Design built<br>for the algorithm.</h2>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>
+        PixelPull Studio is a <strong>boutique thumbnail design agency</strong> obsessed with one thing — making people click. We combine sharp visual instincts with data-driven thinking to produce thumbnails that compete at the highest level.
+      </p>
+      <p>
+        Every thumbnail we produce is crafted with an understanding of <strong>psychology, contrast, hierarchy, and platform behavior.</strong> We don't guess — we study what works and execute with precision.
+      </p>
+      <p>
+        We work with creators across finance, education, gaming, fitness, and tech — from 10k subscribers to 2M+.
+      </p>
+      <div class="stats">
+        <div class="stat-box">
+          <div class="stat-num">500+</div>
+          <div class="stat-label">Thumbnails Delivered</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">8.4%</div>
+          <div class="stat-label">Avg. CTR Increase</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">40+</div>
+          <div class="stat-label">Active Clients</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">24hr</div>
+          <div class="stat-label">Turnaround Time</div>
+        </div>
+      </div>
+    </div>
+    <div class="about-visual">
+      <div class="about-card">
+        <h4>Our Design Philosophy</h4>
+        <p>Thumbnails live in a battlefield of competing images. Every pixel must earn its place. We design for 1-second recognition at thumbnail scale, not just how it looks zoomed in.</p>
+        <div class="tag-row">
+          <span class="tag">Contrast</span>
+          <span class="tag">Hierarchy</span>
+          <span class="tag">Emotion</span>
+          <span class="tag">Curiosity</span>
+        </div>
+      </div>
+      <div class="about-card">
+        <h4>What You Get</h4>
+        <p>High-res source files, mobile-optimized versions, A/B variants, and a designer who actually studies your niche before touching Photoshop.</p>
+        <div class="tag-row">
+          <span class="tag">PSD + PNG</span>
+          <span class="tag">Revisions</span>
+          <span class="tag">A/B Variants</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK / THUMBNAILS -->
+<section id="work">
+  <div class="work-header">
+    <div class="section-label">Portfolio</div>
+    <h2>Work that<br>gets clicked.</h2>
+  </div>
+
+  <!-- Row 1 → right -->
+  <div class="scroll-track row1">
+    <div class="thumb t1"><div class="thumb-inner">10M VIEWS</div><div class="thumb-overlay"><span>Finance · 2024</span></div></div>
+    <div class="thumb t2"><div class="thumb-inner">BROKE TO</div><div class="thumb-overlay"><span>Lifestyle · 2024</span></div></div>
+    <div class="thumb t3"><div class="thumb-inner">AI KILLED</div><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
+    <div class="thumb t4"><div class="thumb-inner">THE TRUTH</div><div class="thumb-overlay"><span>Education · 2024</span></div></div>
+    <div class="thumb t5"><div class="thumb-inner">NO CODE</div><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
+    <div class="thumb t6"><div class="thumb-inner">$0 → $10K</div><div class="thumb-overlay"><span>Business · 2024</span></div></div>
+    <!-- duplicate for seamless loop -->
+    <div class="thumb t7"><div class="thumb-inner">EXPOSED</div><div class="thumb-overlay"><span>Drama · 2024</span></div></div>
+    <div class="thumb t8"><div class="thumb-inner">WE TRIED</div><div class="thumb-overlay"><span>Gaming · 2024</span></div></div>
+    <div class="thumb t1"><div class="thumb-inner">10M VIEWS</div><div class="thumb-overlay"><span>Finance · 2024</span></div></div>
+    <div class="thumb t2"><div class="thumb-inner">BROKE TO</div><div class="thumb-overlay"><span>Lifestyle · 2024</span></div></div>
+    <div class="thumb t3"><div class="thumb-inner">AI KILLED</div><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
+    <div class="thumb t4"><div class="thumb-inner">THE TRUTH</div><div class="thumb-overlay"><span>Education · 2024</span></div></div>
+    <div class="thumb t5"><div class="thumb-inner">NO CODE</div><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
+    <div class="thumb t6"><div class="thumb-inner">$0 → $10K</div><div class="thumb-overlay"><span>Business · 2024</span></div></div>
+  </div>
+
+  <!-- Row 2 ← left -->
+  <div class="scroll-track row2">
+    <div class="thumb t5"><div class="thumb-inner">RANKED #1</div><div class="thumb-overlay"><span>Gaming · 2024</span></div></div>
+    <div class="thumb t8"><div class="thumb-inner">I QUIT</div><div class="thumb-overlay"><span>Lifestyle · 2024</span></div></div>
+    <div class="thumb t6"><div class="thumb-inner">WATCH THIS</div><div class="thumb-overlay"><span>Education · 2024</span></div></div>
+    <div class="thumb t1"><div class="thumb-inner">MUST SEE</div><div class="thumb-overlay"><span>Finance · 2024</span></div></div>
+    <div class="thumb t3"><div class="thumb-inner">SECRETS</div><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
+    <div class="thumb t7"><div class="thumb-inner">LAST DAY</div><div class="thumb-overlay"><span>Vlog · 2024</span></div></div>
+    <div class="thumb t5"><div class="thumb-inner">RANKED #1</div><div class="thumb-overlay"><span>Gaming · 2024</span></div></div>
+    <div class="thumb t8"><div class="thumb-inner">I QUIT</div><div class="thumb-overlay"><span>Lifestyle · 2024</span></div></div>
+    <div class="thumb t6"><div class="thumb-inner">WATCH THIS</div><div class="thumb-overlay"><span>Education · 2024</span></div></div>
+    <div class="thumb t1"><div class="thumb-inner">MUST SEE</div><div class="thumb-overlay"><span>Finance · 2024</span></div></div>
+    <div class="thumb t3"><div class="thumb-inner">SECRETS</div><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
+    <div class="thumb t7"><div class="thumb-inner">LAST DAY</div><div class="thumb-overlay"><span>Vlog · 2024</span></div></div>
+  </div>
+
+  <!-- Row 3 → right -->
+  <div class="scroll-track row3">
+    <div class="thumb t4"><div class="thumb-inner">GONE WRONG</div><div class="thumb-overlay"><span>Drama · 2024</span></div></div>
+    <div class="thumb t2"><div class="thumb-inner">HOW I DID</div><div class="thumb-overlay"><span>Business · 2024</span></div></div>
+    <div class="thumb t7"><div class="thumb-inner">INSANE</div><div class="thumb-overlay"><span>Gaming · 2024</span></div></div>
+    <div class="thumb t3"><div class="thumb-inner">THE END?</div><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
+    <div class="thumb t6"><div class="thumb-inner">REACTING</div><div class="thumb-overlay"><span>React · 2024</span></div></div>
+    <div class="thumb t1"><div class="thumb-inner">PROOF</div><div class="thumb-overlay"><span>Finance · 2024</span></div></div>
+    <div class="thumb t4"><div class="thumb-inner">GONE WRONG</div><div class="thumb-overlay"><span>Drama · 2024</span></div></div>
+    <div class="thumb t2"><div class="thumb-inner">HOW I DID</div><div class="thumb-overlay"><span>Business · 2024</span></div></div>
+    <div class="thumb t7"><div class="thumb-inner">INSANE</div><div class="thumb-overlay"><span>Gaming · 2024</span></div></div>
+    <div class="thumb t3"><div class="thumb-inner">THE END?</div><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
+    <div class="thumb t6"><div class="thumb-inner">REACTING</div><div class="thumb-overlay"><span>React · 2024</span></div></div>
+    <div class="thumb t1"><div class="thumb-inner">PROOF</div><div class="thumb-overlay"><span>Finance · 2024</span></div></div>
+  </div>
+</section>
+
+<!-- ONBOARDING FORM -->
+<section id="onboard">
+  <div class="section-label">Get Started</div>
+  <h2>Let's build<br>your click machine.</h2>
+  <div class="form-grid">
+    <div class="form-info">
+      <h3>How it works</h3>
+      <p>Fill out the form and we'll be in touch within 24 hours to discuss your project, timeline, and goals.</p>
+      <div class="process-steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <div class="step-text">
+            <h5>Submit Your Brief</h5>
+            <p>Tell us about your channel, niche, and what you need. More detail = better results.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <div class="step-text">
+            <h5>Strategy Call</h5>
+            <p>We'll hop on a quick call to align on style, tone, and your content pipeline.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <div class="step-text">
+            <h5>First Draft in 24hrs</h5>
+            <p>Your first thumbnail lands in your inbox. Two rounds of revisions included.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">04</div>
+          <div class="step-text">
+            <h5>Ongoing Partnership</h5>
+            <p>Monthly retainer keeps your content calendar covered and your CTR climbing.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <form id="onboard-form">
+        <div class="field-row">
+          <div class="field">
+            <label>First Name</label>
+            <input type="text" placeholder="Alex" required>
+          </div>
+          <div class="field">
+            <label>Last Name</label>
+            <input type="text" placeholder="Rivera">
+          </div>
+        </div>
+        <div class="field">
+          <label>Email Address</label>
+          <input type="email" placeholder="you@channel.com" required>
+        </div>
+        <div class="field">
+          <label>YouTube Channel URL</label>
+          <input type="url" placeholder="youtube.com/@yourchannel">
+        </div>
+        <div class="field">
+          <label>Channel Niche</label>
+          <select required>
+            <option value="" disabled selected>Select your niche</option>
+            <option>Finance / Investing</option>
+            <option>Tech / AI</option>
+            <option>Gaming</option>
+            <option>Fitness / Health</option>
+            <option>Education / Tutorials</option>
+            <option>Lifestyle / Vlog</option>
+            <option>Business / Entrepreneurship</option>
+            <option>Entertainment / Commentary</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Subscriber Count</label>
+            <select>
+              <option value="" disabled selected>Range</option>
+              <option>Under 1K</option>
+              <option>1K – 10K</option>
+              <option>10K – 100K</option>
+              <option>100K – 1M</option>
+              <option>1M+</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Service Needed</label>
+            <select>
+              <option value="" disabled selected>Select</option>
+              <option>One-off Thumbnails</option>
+              <option>Monthly Retainer</option>
+              <option>Bulk Package</option>
+              <option>Not Sure Yet</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>Tell us about your channel & vision</label>
+          <textarea placeholder="What kind of thumbnails do you need? Any references? What's your posting schedule? What's working or not working currently?"></textarea>
+        </div>
+        <div class="form-footer">
+          <span class="form-note">We reply within 24hrs · No spam ever</span>
+          <button type="submit" class="btn">Send Brief →</button>
+        </div>
+      </form>
+      <div id="form-success">
+        <span>✦</span> Brief received! We'll be in touch within 24 hours.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="foot-logo">Pixel<span>Pull</span> Studio</div>
+    <p style="margin-top:.5rem;">Thumbnails that pull. Every time.</p>
+  </div>
+  <p>© 2025 PixelPull Studio. All rights reserved.</p>
+</footer>
+
+<script>
+  // ── CURSOR
+  const cursor = document.getElementById('cursor');
+  const ring   = document.getElementById('cursor-ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top  = my + 'px';
+  });
+
+  function animateRing() {
+    rx += (mx - rx) * .12;
+    ry += (my - ry) * .12;
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  // ── FORM SUBMIT
+  document.getElementById('onboard-form').addEventListener('submit', e => {
+    e.preventDefault();
+    document.getElementById('onboard-form').style.display = 'none';
+    document.getElementById('form-success').style.display = 'block';
+  });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script>
+  const lenis = new Lenis({
+    duration: 1.4,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    smooth: true,
+  });
+
+  function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  }
+  requestAnimationFrame(raf);
+</script>
+
+</body>
+</html>
