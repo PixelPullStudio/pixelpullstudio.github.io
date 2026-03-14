@@ -28,7 +28,7 @@
     overflow-x: hidden;
   }
 
-  /* â”€â”€ CUSTOM CURSOR â”€â”€ */
+  /* ── CUSTOM CURSOR ── */
   #cursor {
     position: fixed;
     width: 12px; height: 12px;
@@ -58,7 +58,7 @@
   body:has(a:hover) #cursor-ring,
   body:has(button:hover) #cursor-ring { width: 56px; height: 56px; border-color: var(--accent2); }
 
-  /* â”€â”€ NAV â”€â”€ */
+  /* ── NAV ── */
   nav {
     position: fixed; top: 0; left: 0; right: 0;
     z-index: 100;
@@ -89,7 +89,7 @@
   }
   nav ul a:hover { color: var(--accent); }
 
-  /* â”€â”€ HERO â”€â”€ */
+  /* ── HERO ── */
   .hero {
     min-height: 100vh;
     display: flex; align-items: center;
@@ -177,7 +177,7 @@
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* â”€â”€ TICKER â”€â”€ */
+  /* ── TICKER ── */
   .ticker {
     overflow: hidden;
     border-top: 1px solid var(--border);
@@ -199,7 +199,7 @@
   .ticker-item span { color: var(--accent); margin-right: 1rem; }
   @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-  /* â”€â”€ SECTION COMMONS â”€â”€ */
+  /* ── SECTION COMMONS ── */
   section { padding: 7rem 3rem; }
   .section-label {
     font-size: .65rem;
@@ -222,7 +222,7 @@
     margin-bottom: 1.5rem;
   }
 
-  /* â”€â”€ ABOUT â”€â”€ */
+  /* ── ABOUT ── */
   #about { border-top: 1px solid var(--border); }
   .about-grid {
     display: grid;
@@ -292,7 +292,7 @@
     color: var(--muted);
   }
 
-  /* â”€â”€ THUMBNAILS â”€â”€ */
+  /* ── THUMBNAILS ── */
   #work { border-top: 1px solid var(--border); overflow: hidden; }
   .work-header { margin-bottom: 3rem; }
   .scroll-track {
@@ -322,6 +322,7 @@
     cursor: none;
   }
   .thumb:hover .thumb-overlay { opacity: 1; }
+  .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .thumb-overlay {
     position: absolute; inset: 0;
     background: rgba(232,255,71,.08);
@@ -372,7 +373,7 @@
   .t8 .thumb-inner { background: #0a1628; color: #a78bfa; }
   .t8 .thumb-inner::before { background: radial-gradient(circle at 50% 30%, #a78bfa, transparent 60%); }
 
-  /* â”€â”€ ONBOARDING FORM â”€â”€ */
+  /* ── ONBOARDING FORM ── */
   #onboard { border-top: 1px solid var(--border); background: var(--surface); }
   .form-grid {
     display: grid;
@@ -452,7 +453,7 @@
   }
   #form-success span { color: var(--accent); }
 
-  /* â”€â”€ FOOTER â”€â”€ */
+  /* ── FOOTER ── */
   footer {
     border-top: 1px solid var(--border);
     padding: 3rem;
@@ -470,7 +471,7 @@
   .foot-logo span { color: var(--accent); }
   footer p { font-size: .7rem; color: var(--muted); }
 
-  /* â”€â”€ RESPONSIVE â”€â”€ */
+  /* ── RESPONSIVE ── */
   @media (max-width: 768px) {
     nav { padding: 1.2rem 1.5rem; }
     nav ul { display: none; }
@@ -496,7 +497,7 @@
   <ul>
     <li><a href="#about">About</a></li>
     <li><a href="#work">Work</a></li>
-    <li><a href="#onboard">Get Started</a></li>
+    <li><a href="#onboard">Connect</a></li>
   </ul>
 </nav>
 
@@ -512,7 +513,7 @@
       One studio. Obsessive craft.
     </p>
     <div class="hero-ctas">
-      <a href="#onboard" class="btn">Start a Project â†’</a>
+      <a href="#onboard" class="btn">Connect →</a>
       <a href="#work" class="btn btn-outline">View Work</a>
     </div>
   </div>
@@ -520,7 +521,7 @@
     <svg width="120" height="120" viewBox="0 0 120 120">
       <path id="circle-text" fill="none" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0"/>
       <text fill="#555" font-size="10.5" font-family="DM Mono,monospace" letter-spacing="2.8">
-        <textPath href="#circle-text">THUMBNAIL STUDIO Â· DESIGN Â· CTR Â· CRAFT Â·</textPath>
+        <textPath href="#circle-text">THUMBNAIL STUDIO · DESIGN · CTR · CRAFT ·</textPath>
       </text>
     </svg>
     <div class="hero-badge-inner"></div>
@@ -530,21 +531,21 @@
 <!-- TICKER -->
 <div class="ticker">
   <div class="ticker-inner">
-    <span class="ticker-item"><span>âœ¦</span> HIGH CTR THUMBNAILS</span>
-    <span class="ticker-item"><span>âœ¦</span> YOUTUBE OPTIMIZATION</span>
-    <span class="ticker-item"><span>âœ¦</span> BRAND IDENTITY</span>
-    <span class="ticker-item"><span>âœ¦</span> SCROLL-STOPPING DESIGN</span>
-    <span class="ticker-item"><span>âœ¦</span> RETAINER PACKAGES</span>
-    <span class="ticker-item"><span>âœ¦</span> HIGH CTR THUMBNAILS</span>
-    <span class="ticker-item"><span>âœ¦</span> YOUTUBE OPTIMIZATION</span>
-    <span class="ticker-item"><span>âœ¦</span> BRAND IDENTITY</span>
-    <span class="ticker-item"><span>âœ¦</span> SCROLL-STOPPING DESIGN</span>
-    <span class="ticker-item"><span>âœ¦</span> RETAINER PACKAGES</span>
-    <span class="ticker-item"><span>âœ¦</span> HIGH CTR THUMBNAILS</span>
-    <span class="ticker-item"><span>âœ¦</span> YOUTUBE OPTIMIZATION</span>
-    <span class="ticker-item"><span>âœ¦</span> BRAND IDENTITY</span>
-    <span class="ticker-item"><span>âœ¦</span> SCROLL-STOPPING DESIGN</span>
-    <span class="ticker-item"><span>âœ¦</span> RETAINER PACKAGES</span>
+    <span class="ticker-item"><span>✦</span> HIGH CTR THUMBNAILS</span>
+    <span class="ticker-item"><span>✦</span> YOUTUBE OPTIMIZATION</span>
+    <span class="ticker-item"><span>✦</span> BRAND IDENTITY</span>
+    <span class="ticker-item"><span>✦</span> SCROLL-STOPPING DESIGN</span>
+    <span class="ticker-item"><span>✦</span> RETAINER PACKAGES</span>
+    <span class="ticker-item"><span>✦</span> HIGH CTR THUMBNAILS</span>
+    <span class="ticker-item"><span>✦</span> YOUTUBE OPTIMIZATION</span>
+    <span class="ticker-item"><span>✦</span> BRAND IDENTITY</span>
+    <span class="ticker-item"><span>✦</span> SCROLL-STOPPING DESIGN</span>
+    <span class="ticker-item"><span>✦</span> RETAINER PACKAGES</span>
+    <span class="ticker-item"><span>✦</span> HIGH CTR THUMBNAILS</span>
+    <span class="ticker-item"><span>✦</span> YOUTUBE OPTIMIZATION</span>
+    <span class="ticker-item"><span>✦</span> BRAND IDENTITY</span>
+    <span class="ticker-item"><span>✦</span> SCROLL-STOPPING DESIGN</span>
+    <span class="ticker-item"><span>✦</span> RETAINER PACKAGES</span>
   </div>
 </div>
 
@@ -555,13 +556,13 @@
   <div class="about-grid">
     <div class="about-text">
       <p>
-        PixelPull Studio is a <strong>boutique thumbnail design agency</strong> obsessed with one thing â€” making people click. We combine sharp visual instincts with data-driven thinking to produce thumbnails that compete at the highest level.
+        PixelPull Studio is a <strong>boutique thumbnail design agency</strong> obsessed with one thing — making people click. We combine sharp visual instincts with data-driven thinking to produce thumbnails that compete at the highest level.
       </p>
       <p>
-        Every thumbnail we produce is crafted with an understanding of <strong>psychology, contrast, hierarchy, and platform behavior.</strong> We don't guess â€” we study what works and execute with precision.
+        Every thumbnail we produce is crafted with an understanding of <strong>psychology, contrast, hierarchy, and platform behavior.</strong> We don't guess — we study what works and execute with precision.
       </p>
       <p>
-        We work with creators across finance, education, gaming, fitness, and tech â€” from 10k subscribers to 2M+.
+        We work with creators across finance, education, gaming, fitness, and tech — from 10k subscribers to 2M+.
       </p>
       <div class="stats">
         <div class="stat-box">
@@ -613,72 +614,72 @@
     <h2>Work that<br>gets clicked.</h2>
   </div>
 
-  <!-- Row 1 â†’ right -->
+  <!-- Row 1 → right -->
   <div class="scroll-track row1">
-    <div class="thumb t1"><div class="thumb-inner">10M VIEWS</div><div class="thumb-overlay"><span>Finance Â· 2024</span></div></div>
-    <div class="thumb t2"><div class="thumb-inner">BROKE TO</div><div class="thumb-overlay"><span>Lifestyle Â· 2024</span></div></div>
-    <div class="thumb t3"><div class="thumb-inner">AI KILLED</div><div class="thumb-overlay"><span>Tech Â· 2024</span></div></div>
-    <div class="thumb t4"><div class="thumb-inner">THE TRUTH</div><div class="thumb-overlay"><span>Education Â· 2024</span></div></div>
-    <div class="thumb t5"><div class="thumb-inner">NO CODE</div><div class="thumb-overlay"><span>Tech Â· 2024</span></div></div>
-    <div class="thumb t6"><div class="thumb-inner">$0 â†’ $10K</div><div class="thumb-overlay"><span>Business Â· 2024</span></div></div>
+    <div class="thumb"><img src="https://pixelpullstudio.github.io/Images/2.jpg" alt="thumbnail"><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
+    <div class="thumb"><img src="https://pixelpullstudio.github.io/Images/5070%20Tl.jpg" alt="thumbnail"><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
+    <div class="thumb"><img src="https://pixelpullstudio.github.io/Images/7-10-25%20(3).jpg" alt="thumbnail"><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
+    <div class="thumb"><img src="https://pixelpullstudio.github.io/Images/8%20VS%2016%20GB%20RAM%20v3.png" alt="thumbnail"><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
+    <div class="thumb"><img src="https://pixelpullstudio.github.io/Images/81jpg.jpg" alt="thumbnail"><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
+    <div class="thumb"><img src="https://pixelpullstudio.github.io/Images/RTX%205060%20AMD.jpg" alt="thumbnail"><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
     <!-- duplicate for seamless loop -->
-    <div class="thumb t7"><div class="thumb-inner">EXPOSED</div><div class="thumb-overlay"><span>Drama Â· 2024</span></div></div>
-    <div class="thumb t8"><div class="thumb-inner">WE TRIED</div><div class="thumb-overlay"><span>Gaming Â· 2024</span></div></div>
-    <div class="thumb t1"><div class="thumb-inner">10M VIEWS</div><div class="thumb-overlay"><span>Finance Â· 2024</span></div></div>
-    <div class="thumb t2"><div class="thumb-inner">BROKE TO</div><div class="thumb-overlay"><span>Lifestyle Â· 2024</span></div></div>
-    <div class="thumb t3"><div class="thumb-inner">AI KILLED</div><div class="thumb-overlay"><span>Tech Â· 2024</span></div></div>
-    <div class="thumb t4"><div class="thumb-inner">THE TRUTH</div><div class="thumb-overlay"><span>Education Â· 2024</span></div></div>
-    <div class="thumb t5"><div class="thumb-inner">NO CODE</div><div class="thumb-overlay"><span>Tech Â· 2024</span></div></div>
-    <div class="thumb t6"><div class="thumb-inner">$0 â†’ $10K</div><div class="thumb-overlay"><span>Business Â· 2024</span></div></div>
+    <div class="thumb"><img src="https://pixelpullstudio.github.io/Images/2.jpg" alt="thumbnail"><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
+    <div class="thumb"><img src="https://pixelpullstudio.github.io/Images/5070%20Tl.jpg" alt="thumbnail"><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
+    <div class="thumb"><img src="https://pixelpullstudio.github.io/Images/7-10-25%20(3).jpg" alt="thumbnail"><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
+    <div class="thumb"><img src="https://pixelpullstudio.github.io/Images/8%20VS%2016%20GB%20RAM%20v3.png" alt="thumbnail"><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
+    <div class="thumb"><img src="https://pixelpullstudio.github.io/Images/81jpg.jpg" alt="thumbnail"><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
+    <div class="thumb"><img src="https://pixelpullstudio.github.io/Images/RTX%205060%20AMD.jpg" alt="thumbnail"><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
   </div>
 
-  <!-- Row 2 â† left -->
+  <!-- Row 2 ← left -->
   <div class="scroll-track row2">
-    <div class="thumb t5"><div class="thumb-inner">RANKED #1</div><div class="thumb-overlay"><span>Gaming Â· 2024</span></div></div>
-    <div class="thumb t8"><div class="thumb-inner">I QUIT</div><div class="thumb-overlay"><span>Lifestyle Â· 2024</span></div></div>
-    <div class="thumb t6"><div class="thumb-inner">WATCH THIS</div><div class="thumb-overlay"><span>Education Â· 2024</span></div></div>
-    <div class="thumb t1"><div class="thumb-inner">MUST SEE</div><div class="thumb-overlay"><span>Finance Â· 2024</span></div></div>
-    <div class="thumb t3"><div class="thumb-inner">SECRETS</div><div class="thumb-overlay"><span>Tech Â· 2024</span></div></div>
-    <div class="thumb t7"><div class="thumb-inner">LAST DAY</div><div class="thumb-overlay"><span>Vlog Â· 2024</span></div></div>
-    <div class="thumb t5"><div class="thumb-inner">RANKED #1</div><div class="thumb-overlay"><span>Gaming Â· 2024</span></div></div>
-    <div class="thumb t8"><div class="thumb-inner">I QUIT</div><div class="thumb-overlay"><span>Lifestyle Â· 2024</span></div></div>
-    <div class="thumb t6"><div class="thumb-inner">WATCH THIS</div><div class="thumb-overlay"><span>Education Â· 2024</span></div></div>
-    <div class="thumb t1"><div class="thumb-inner">MUST SEE</div><div class="thumb-overlay"><span>Finance Â· 2024</span></div></div>
-    <div class="thumb t3"><div class="thumb-inner">SECRETS</div><div class="thumb-overlay"><span>Tech Â· 2024</span></div></div>
-    <div class="thumb t7"><div class="thumb-inner">LAST DAY</div><div class="thumb-overlay"><span>Vlog Â· 2024</span></div></div>
+    <div class="thumb"><img src="https://pixelpullstudio.github.io/Images/Redesign%202.jpg" alt="thumbnail"><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
+    <div class="thumb"><img src="https://pixelpullstudio.github.io/Images/gaming%20laptopv2.jpg" alt="thumbnail"><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
+    <div class="thumb"><img src="https://pixelpullstudio.github.io/Images/new.jpg" alt="thumbnail"><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
+    <div class="thumb"><img src="https://pixelpullstudio.github.io/Images/r.jpg" alt="thumbnail"><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
+    <div class="thumb"><img src="https://pixelpullstudio.github.io/Images/2.jpg" alt="thumbnail"><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
+    <div class="thumb"><img src="https://pixelpullstudio.github.io/Images/5070%20Tl.jpg" alt="thumbnail"><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
+    <!-- duplicate for seamless loop -->
+    <div class="thumb"><img src="https://pixelpullstudio.github.io/Images/Redesign%202.jpg" alt="thumbnail"><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
+    <div class="thumb"><img src="https://pixelpullstudio.github.io/Images/gaming%20laptopv2.jpg" alt="thumbnail"><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
+    <div class="thumb"><img src="https://pixelpullstudio.github.io/Images/new.jpg" alt="thumbnail"><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
+    <div class="thumb"><img src="https://pixelpullstudio.github.io/Images/r.jpg" alt="thumbnail"><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
+    <div class="thumb"><img src="https://pixelpullstudio.github.io/Images/2.jpg" alt="thumbnail"><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
+    <div class="thumb"><img src="https://pixelpullstudio.github.io/Images/5070%20Tl.jpg" alt="thumbnail"><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
   </div>
 
-  <!-- Row 3 â†’ right -->
+  <!-- Row 3 → right -->
   <div class="scroll-track row3">
-    <div class="thumb t4"><div class="thumb-inner">GONE WRONG</div><div class="thumb-overlay"><span>Drama Â· 2024</span></div></div>
-    <div class="thumb t2"><div class="thumb-inner">HOW I DID</div><div class="thumb-overlay"><span>Business Â· 2024</span></div></div>
-    <div class="thumb t7"><div class="thumb-inner">INSANE</div><div class="thumb-overlay"><span>Gaming Â· 2024</span></div></div>
-    <div class="thumb t3"><div class="thumb-inner">THE END?</div><div class="thumb-overlay"><span>Tech Â· 2024</span></div></div>
-    <div class="thumb t6"><div class="thumb-inner">REACTING</div><div class="thumb-overlay"><span>React Â· 2024</span></div></div>
-    <div class="thumb t1"><div class="thumb-inner">PROOF</div><div class="thumb-overlay"><span>Finance Â· 2024</span></div></div>
-    <div class="thumb t4"><div class="thumb-inner">GONE WRONG</div><div class="thumb-overlay"><span>Drama Â· 2024</span></div></div>
-    <div class="thumb t2"><div class="thumb-inner">HOW I DID</div><div class="thumb-overlay"><span>Business Â· 2024</span></div></div>
-    <div class="thumb t7"><div class="thumb-inner">INSANE</div><div class="thumb-overlay"><span>Gaming Â· 2024</span></div></div>
-    <div class="thumb t3"><div class="thumb-inner">THE END?</div><div class="thumb-overlay"><span>Tech Â· 2024</span></div></div>
-    <div class="thumb t6"><div class="thumb-inner">REACTING</div><div class="thumb-overlay"><span>React Â· 2024</span></div></div>
-    <div class="thumb t1"><div class="thumb-inner">PROOF</div><div class="thumb-overlay"><span>Finance Â· 2024</span></div></div>
+    <div class="thumb"><img src="https://pixelpullstudio.github.io/Images/7-10-25%20(3).jpg" alt="thumbnail"><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
+    <div class="thumb"><img src="https://pixelpullstudio.github.io/Images/8%20VS%2016%20GB%20RAM%20v3.png" alt="thumbnail"><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
+    <div class="thumb"><img src="https://pixelpullstudio.github.io/Images/81jpg.jpg" alt="thumbnail"><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
+    <div class="thumb"><img src="https://pixelpullstudio.github.io/Images/RTX%205060%20AMD.jpg" alt="thumbnail"><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
+    <div class="thumb"><img src="https://pixelpullstudio.github.io/Images/gaming%20laptopv2.jpg" alt="thumbnail"><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
+    <div class="thumb"><img src="https://pixelpullstudio.github.io/Images/Redesign%202.jpg" alt="thumbnail"><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
+    <!-- duplicate for seamless loop -->
+    <div class="thumb"><img src="https://pixelpullstudio.github.io/Images/7-10-25%20(3).jpg" alt="thumbnail"><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
+    <div class="thumb"><img src="https://pixelpullstudio.github.io/Images/8%20VS%2016%20GB%20RAM%20v3.png" alt="thumbnail"><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
+    <div class="thumb"><img src="https://pixelpullstudio.github.io/Images/81jpg.jpg" alt="thumbnail"><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
+    <div class="thumb"><img src="https://pixelpullstudio.github.io/Images/RTX%205060%20AMD.jpg" alt="thumbnail"><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
+    <div class="thumb"><img src="https://pixelpullstudio.github.io/Images/gaming%20laptopv2.jpg" alt="thumbnail"><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
+    <div class="thumb"><img src="https://pixelpullstudio.github.io/Images/Redesign%202.jpg" alt="thumbnail"><div class="thumb-overlay"><span>Tech · 2024</span></div></div>
   </div>
 </section>
 
-<!-- ONBOARDING FORM -->
+<!-- CONNECT FORM -->
 <section id="onboard">
-  <div class="section-label">Get Started</div>
+  <div class="section-label">Connect</div>
   <h2>Let's build<br>your click machine.</h2>
   <div class="form-grid">
     <div class="form-info">
       <h3>How it works</h3>
-      <p>Fill out the form and we'll be in touch within 24 hours to discuss your project, timeline, and goals.</p>
+      <p>Drop your details and we'll reach out within 24 hours. That's it.</p>
       <div class="process-steps">
         <div class="step">
           <div class="step-num">01</div>
           <div class="step-text">
-            <h5>Submit Your Brief</h5>
-            <p>Tell us about your channel, niche, and what you need. More detail = better results.</p>
+            <h5>Connect</h5>
+            <p>Leave your name and email. We come to you — no lengthy forms, no friction.</p>
           </div>
         </div>
         <div class="step">
@@ -707,73 +708,31 @@
 
     <div>
       <form id="onboard-form">
-        <div class="field-row">
-          <div class="field">
-            <label>First Name</label>
-            <input type="text" placeholder="Alex" required>
-          </div>
-          <div class="field">
-            <label>Last Name</label>
-            <input type="text" placeholder="Rivera">
-          </div>
+        <div class="field">
+          <label>Name <span style="color:var(--accent2)">*</span></label>
+          <input type="text" id="field-name" placeholder="Your name" required>
         </div>
         <div class="field">
-          <label>Email Address</label>
-          <input type="email" placeholder="you@channel.com" required>
-        </div>
-        <div class="field">
-          <label>YouTube Channel URL</label>
-          <input type="url" placeholder="youtube.com/@yourchannel">
-        </div>
-        <div class="field">
-          <label>Channel Niche</label>
-          <select required>
-            <option value="" disabled selected>Select your niche</option>
-            <option>Finance / Investing</option>
-            <option>Tech / AI</option>
-            <option>Gaming</option>
-            <option>Fitness / Health</option>
-            <option>Education / Tutorials</option>
-            <option>Lifestyle / Vlog</option>
-            <option>Business / Entrepreneurship</option>
-            <option>Entertainment / Commentary</option>
-            <option>Other</option>
-          </select>
+          <label>Email <span style="color:var(--accent2)">*</span></label>
+          <input type="email" id="field-email" placeholder="you@channel.com" required>
         </div>
         <div class="field-row">
           <div class="field">
-            <label>Subscriber Count</label>
-            <select>
-              <option value="" disabled selected>Range</option>
-              <option>Under 1K</option>
-              <option>1K â€“ 10K</option>
-              <option>10K â€“ 100K</option>
-              <option>100K â€“ 1M</option>
-              <option>1M+</option>
-            </select>
+            <label>Phone <span style="color:var(--muted);font-size:.6rem">optional</span></label>
+            <input type="tel" id="field-phone" placeholder="+91 98765 43210">
           </div>
           <div class="field">
-            <label>Service Needed</label>
-            <select>
-              <option value="" disabled selected>Select</option>
-              <option>One-off Thumbnails</option>
-              <option>Monthly Retainer</option>
-              <option>Bulk Package</option>
-              <option>Not Sure Yet</option>
-            </select>
+            <label>WhatsApp <span style="color:var(--muted);font-size:.6rem">optional</span></label>
+            <input type="tel" id="field-whatsapp" placeholder="+91 98765 43210">
           </div>
-        </div>
-        <div class="field">
-          <label>Tell us about your channel & vision</label>
-          <textarea placeholder="What kind of thumbnails do you need? Any references? What's your posting schedule? What's working or not working currently?"></textarea>
         </div>
         <div class="form-footer">
-          <span class="form-note">We reply within 24hrs Â· No spam ever</span>
-          <button type="submit" class="btn">Send Brief â†’</button>
+          <span class="form-note">We reply within 24hrs · No spam ever</span>
+          <button type="submit" class="btn">Connect →</button>
         </div>
       </form>
       <div id="form-success">
-        <span>âœ¦</span> Brief received! We'll be in touch within 24 hours.
+        <span>✦</span> Got it! We'll be in touch within 24 hours.
       </div>
     </div>
   </div>
@@ -785,11 +744,11 @@
     <div class="foot-logo">Pixel<span>Pull</span> Studio</div>
     <p style="margin-top:.5rem;">Thumbnails that pull. Every time.</p>
   </div>
-  <p>Â© 2025 PixelPull Studio. All rights reserved.</p>
+  <p>© 2025 PixelPull Studio. All rights reserved.</p>
 </footer>
 
 <script>
-  // â”€â”€ CURSOR
+  // ── CURSOR
   const cursor = document.getElementById('cursor');
   const ring   = document.getElementById('cursor-ring');
   let mx = 0, my = 0, rx = 0, ry = 0;
@@ -809,9 +768,34 @@
   }
   animateRing();
 
-  // â”€â”€ FORM SUBMIT
-  document.getElementById('onboard-form').addEventListener('submit', e => {
+  // ── FORM SUBMIT → GOOGLE SHEETS
+  const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzPo7KDdAsIoCDMRNppD5t3bi_6fYpnTxDwjeo9xSU3WkTiDI1cj9LpvZSxBU5Pwj90/exec'; // ← paste your Web App URL here
+
+  document.getElementById('onboard-form').addEventListener('submit', async e => {
     e.preventDefault();
+    const btn = e.target.querySelector('button[type="submit"]');
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+
+    const payload = {
+      name:      document.getElementById('field-name').value,
+      email:     document.getElementById('field-email').value,
+      phone:     document.getElementById('field-phone').value,
+      whatsapp:  document.getElementById('field-whatsapp').value,
+      timestamp: new Date().toISOString()
+    };
+
+    try {
+      await fetch(SHEET_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+    } catch (err) {
+      console.error('Sheet submission failed:', err);
+    }
+
     document.getElementById('onboard-form').style.display = 'none';
     document.getElementById('form-success').style.display = 'block';
   });
